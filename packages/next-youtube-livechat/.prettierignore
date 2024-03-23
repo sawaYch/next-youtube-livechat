@@ -1,0 +1,4 @@
+.prettierignore
+**/.next/**
+**/_next/**
+**/dist/**

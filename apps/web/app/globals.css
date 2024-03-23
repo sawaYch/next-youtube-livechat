@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --gradient: linear-gradient(to top left, #1fa2ff, #12d8fa, #a6ffcb);
+
+    --background: 218 65% 4.48%;
+    --foreground: 218 10% 97.8%;
+
+    --muted: 218 50% 16.8%;
+    --muted-foreground: 218 10% 55.6%;
+
+    --popover: 218 45% 7.280000000000001%;
+    --popover-foreground: 218 10% 97.8%;
+
+    --card: 218 45% 7.280000000000001%;
+    --card-foreground: 218 10% 97.8%;
+
+    --border: 218 50% 16.8%;
+    --input: 218 50% 16.8%;
+
+    --primary: 218 100% 56%;
+    --primary-foreground: 218 10% 5.6000000000000005%;
+
+    --secondary: 218 50% 16.8%;
+    --secondary-foreground: 218 10% 97.8%;
+
+    --accent: 218 50% 16.8%;
+    --accent-foreground: 218 10% 97.8%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 218 10% 97.8%;
+
+    --ring: 218 100% 56%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #1fa2ff;
+  border-radius: 12px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #1fa2ff;
+}
+
+/* Handle scrollbar corner */
+::-webkit-scrollbar-corner {
+  background: #222226;
+}
+
+@-webkit-keyframes bscale {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes bscale {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+.dot-pattern {
+  background: -webkit-radial-gradient(#fff 20%, transparent 20%);
+  background: radial-gradient(#fff 20%, transparent 20%);
+  background-size: 10px 10px;
+  -webkit-animation: bscale 60s infinite linear;
+  animation: bscale 60s infinite linear;
+}
