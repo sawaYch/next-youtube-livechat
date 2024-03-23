@@ -6,6 +6,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
+import { useToast } from './ui/use-toast';
+
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import UrlInput from '@/components/url-input';
 
@@ -13,6 +15,7 @@ import { cn } from '@/lib/utils';
 import { fetchChat, fetchLivePageByLiveUrl } from '@/lib/yt-api-requests';
 
 const Demo = () => {
+  const { toast } = useToast();
   const { isReady, isLoading, setUrl, url, setIsReady, setIsLoading } =
     useDemoStore();
   const [messages, setMessages] = useState<ChatItem[]>([]);
@@ -23,17 +26,28 @@ const Demo = () => {
 
   useEffect(() => {
     (async () => {
-      if (url) {
-        setIsLoading(true);
-        let options = await fetchLivePageByLiveUrl(url);
-        intervalHandle.current = setInterval(async () => {
-          if (!isReady) return;
-          const [chatItems, continuation] = await fetchChat(options);
-          setMessages((prev) => [...prev, ...chatItems]);
-          options.continuation = continuation;
-        }, 1000);
+      try {
+        if (url) {
+          setIsLoading(true);
+          let options = await fetchLivePageByLiveUrl(url);
+          intervalHandle.current = setInterval(async () => {
+            if (!isReady) return;
+            const [chatItems, continuation] = await fetchChat(options);
+            setMessages((prev) => [...prev, ...chatItems]);
+            options.continuation = continuation;
+          }, 1000);
+          setIsLoading(false);
+          setIsReady(true);
+        }
+      } catch (err) {
+        toast({
+          title: '🚨Oops...',
+          description: (err as unknown as Error).message,
+          variant: 'destructive',
+        });
         setIsLoading(false);
-        setIsReady(true);
+        setIsReady(false);
+        setUrl();
       }
     })();
 
@@ -42,7 +56,7 @@ const Demo = () => {
         clearInterval(intervalHandle.current);
       }
     };
-  }, [isReady, setIsLoading, setIsReady, url]);
+  }, [isReady, setIsLoading, setIsReady, setUrl, toast, url]);
 
   const displayedMessage = useMemo(() => {
     return messages.map((it) => ({
