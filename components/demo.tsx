@@ -3,6 +3,7 @@
 import { useDemoStore } from '@/stores/store';
 import { ChatItem } from '@/types/yt-data';
 import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
@@ -35,13 +36,32 @@ const Demo = () => {
         setIsReady(true);
       }
     })();
+
+    return () => {
+      if (intervalHandle.current) {
+        clearInterval(intervalHandle.current);
+      }
+    };
   }, [isReady, setIsLoading, setIsReady, url]);
 
   const displayedMessage = useMemo(() => {
     return messages.map((it) => ({
-      message: it.message.map(
-        (it) => `${'text' in it ? it.text : it.emojiText}`
-      ),
+      message: it.message.map((it, index) => {
+        if ('text' in it) {
+          return <span key={`${it.text}${index}`}>{it.text}</span>;
+        }
+
+        return (
+          <Image
+            key={`${it.emojiText}${index}`}
+            className='relative inline-block'
+            src={it.url}
+            alt={it.alt}
+            width={32}
+            height={32}
+          />
+        );
+      }),
       avatar: it.author.thumbnail?.url,
       name: it.author.name,
     }));
@@ -87,7 +107,7 @@ const Demo = () => {
         <AnimatePresence>
           <div
             ref={scrollableMessageContainerRef}
-            className='flex h-full w-full flex-col overflow-y-auto overflow-x-hidden'
+            className='flex h-full w-full flex-col overflow-y-auto overflow-x-hidden pr-2'
           >
             {displayedMessage?.map((message, index) => (
               <motion.div
@@ -113,9 +133,12 @@ const Demo = () => {
                 )}
               >
                 <div className='flex items-center gap-3'>
-                  <span className=' max-w-xs rounded-md bg-accent p-3'>
-                    {message.message}
-                  </span>
+                  <div className='max-w-xs rounded-md bg-accent p-3'>
+                    <div className='rounded-lg bg-primary px-2 mb-2 w-fit'>
+                      {message.name}
+                    </div>
+                    <span>{message.message}</span>
+                  </div>
                   <Avatar className='flex items-center justify-center'>
                     <AvatarImage
                       src={message.avatar}
