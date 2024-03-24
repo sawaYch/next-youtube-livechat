@@ -23,7 +23,7 @@ interface UrlInputProps extends InputProps {
 }
 
 const Spinner = ({ className }: { className?: string }) => {
-  return <Loader2 className={cn('animate-spin', className)} />;
+  return <Loader2 size={16} className={cn('animate-spin', className)} />;
 };
 
 const UrlInput = forwardRef<HTMLInputElement, UrlInputProps>(
@@ -51,7 +51,7 @@ const UrlInput = forwardRef<HTMLInputElement, UrlInputProps>(
           <Button
             type='button'
             size='sm'
-            className='absolute right-0 top-0 h-full rounded-l-none px-3 py-2'
+            className='absolute right-0 top-0 h-full rounded-l-none px-3 py-2 border border-secondary border-l-0'
             onClick={handleButtonClick}
             disabled={isLoading}
           >

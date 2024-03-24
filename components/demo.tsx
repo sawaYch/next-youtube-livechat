@@ -1,85 +1,43 @@
 'use client';
 
+import useLiveChat from '@/hooks/useLiveChat';
 import { useDemoStore } from '@/stores/store';
-import { ChatItem } from '@/types/yt-data';
 import { AnimatePresence, motion } from 'framer-motion';
-import Image from 'next/image';
-import { useEffect, useMemo, useRef, useState } from 'react';
-
-import { useToast } from './ui/use-toast';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import UrlInput from '@/components/url-input';
 
 import { cn } from '@/lib/utils';
-import { fetchChat, fetchLivePageByLiveUrl } from '@/lib/yt-api-requests';
 
 const Demo = () => {
-  const { toast } = useToast();
   const { isReady, isLoading, setUrl, url, setIsReady, setIsLoading } =
     useDemoStore();
-  const [messages, setMessages] = useState<ChatItem[]>([]);
-
-  const intervalHandle = useRef<NodeJS.Timeout>();
   const endOfMessageDivRef = useRef<HTMLDivElement>(null);
   const scrollableMessageContainerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    (async () => {
-      try {
-        if (url) {
-          setIsLoading(true);
-          let options = await fetchLivePageByLiveUrl(url);
-          intervalHandle.current = setInterval(async () => {
-            if (!isReady) return;
-            const [chatItems, continuation] = await fetchChat(options);
-            setMessages((prev) => [...prev, ...chatItems]);
-            options.continuation = continuation;
-          }, 1000);
-          setIsLoading(false);
-          setIsReady(true);
-        }
-      } catch (err) {
-        toast({
-          title: '🚨Oops...',
-          description: (err as unknown as Error).message,
-          variant: 'destructive',
-        });
-        setIsLoading(false);
-        setIsReady(false);
-        setUrl();
-      }
-    })();
+  const onBeforeStart = useCallback(async () => {
+    setIsLoading(true);
+  }, [setIsLoading]);
 
-    return () => {
-      if (intervalHandle.current) {
-        clearInterval(intervalHandle.current);
-      }
-    };
-  }, [isReady, setIsLoading, setIsReady, setUrl, toast, url]);
+  const onStart = useCallback(async () => {
+    setIsLoading(false);
+    setIsReady(true);
+  }, [setIsLoading, setIsReady]);
 
-  const displayedMessage = useMemo(() => {
-    return messages.map((it) => ({
-      message: it.message.map((it, index) => {
-        if ('text' in it) {
-          return <span key={`${it.text}${index}`}>{it.text}</span>;
-        }
+  const onError = useCallback(async () => {
+    setIsLoading(false);
+    setIsReady(false);
+    setUrl();
+  }, [setIsLoading, setIsReady, setUrl]);
 
-        return (
-          <Image
-            key={`${it.emojiText}${index}`}
-            className='relative inline-block'
-            src={it.url}
-            alt={it.alt}
-            width={32}
-            height={32}
-          />
-        );
-      }),
-      avatar: it.author.thumbnail?.url,
-      name: it.author.name,
-    }));
-  }, [messages]);
+  const { displayedMessage, cleanUp } = useLiveChat({
+    url,
+    isReady,
+    onBeforeStart,
+    onStart,
+    onError,
+  });
 
   useEffect(() => {
     if (!scrollableMessageContainerRef.current) return;
@@ -111,13 +69,9 @@ const Demo = () => {
             }
             setIsReady(false);
             setUrl();
-            if (intervalHandle.current) {
-              clearInterval(intervalHandle.current);
-            }
-            setMessages([]);
+            await cleanUp();
           }}
         />
-
         <AnimatePresence>
           <div
             ref={scrollableMessageContainerRef}

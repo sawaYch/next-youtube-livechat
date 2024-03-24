@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# next-youtube-chat
 
-## Getting Started
+Fetch YouTube live chat without API using NextJS which bypass CORS.
 
-First, run the development server:
+🚨 You will need to take full responsibility for your action 🚨
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Getting started
+
+### Source Code
+
+Hook
+
+> React hook for getting livestream message data, event handling
+
+- `hooks\useLiveChat.tsx`
+
+Youtube related functions
+
+> Use to parse chat message / emoji  
+> API functions contain payload for fetching live chatroom (without using YouTube Data API)
+
+- `lib\yt-api-parser.ts`
+- `lib\yt-api-requests.ts`
+
+Next Backend API
+
+> Act as proxy to bypass CORS.
+
+- `app\api\yt-api\[...slug]\route.ts`
+
+### Usage
+
+```ts
+import useLiveChat from '@/hooks/useLiveChat';
+
+const Demo = () => {
+  /** loading state, optional. Can use to control show spinner before fetching start & hide spinner after fetching start **/
+  const [isLoading, setIsLoading] = useState<boolean>();
+
+  /** ready state, required. Use to control start/termination of chat message polling **/
+  const [isReady, setIsReady] = useState<boolean>();
+
+  /** url state, required. Use to provide YouTube livestream target to fetch chat message **/
+  const [url, setUrl] = useState<string | undefined>();
+
+  const onBeforeStart = useCallback(async () => {
+    setIsLoading(true);
+  }, [setIsLoading]);
+
+  const onStart = useCallback(async () => {
+    setIsLoading(false);
+    setIsReady(true);
+  }, [setIsLoading, setIsReady]);
+
+  const onError = useCallback(async () => {
+    setIsLoading(false);
+    setIsReady(false);
+    setUrl();
+  }, [setIsLoading, setIsReady, setUrl]);
+
+  const { displayedMessage, cleanUp } = useLiveChat({
+    url,
+    isReady,
+    onBeforeStart,
+    onStart,
+    onError,
+  });
+
+return  (<div>
+          {displayedMessage?.map((it, index) => (
+            <span key={`${it.message}${index}`}>{it.message}</span>
+          ))}
+        </div>)
+}
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Reference
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Part of the code is referenced from [LinaTsukusu/youtube-chat](https://github.com/LinaTsukusu/youtube-chat), many thanks 🙌
