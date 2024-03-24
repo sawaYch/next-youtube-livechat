@@ -61,7 +61,11 @@ const useLiveChat = ({
     return messages.map((it) => ({
       message: it.message.map((it, index) => {
         if ('text' in it) {
-          return <span key={`${it.text}${index}`}>{it.text}</span>;
+          return (
+            <span className='relative inline-block' key={`${it.text}${index}`}>
+              {it.text}
+            </span>
+          );
         }
 
         return (
@@ -70,8 +74,8 @@ const useLiveChat = ({
             className='relative inline-block'
             src={it.url}
             alt={it.alt}
-            width={32}
-            height={32}
+            width={24}
+            height={24}
           />
         );
       }),

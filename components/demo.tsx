@@ -105,7 +105,9 @@ const Demo = () => {
                     <div className='rounded-lg bg-primary px-2 mb-2 w-fit'>
                       {message.name}
                     </div>
-                    <span>{message.message}</span>
+                    <span className='relative inline-block'>
+                      {message.message}
+                    </span>
                   </div>
                   <Avatar className='flex items-center justify-center'>
                     <AvatarImage
