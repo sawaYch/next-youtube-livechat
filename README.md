@@ -4,8 +4,7 @@ Fetch YouTube live chat without API using NextJS which bypass CORS.
 
 🚨 You will need to take full responsibility for your action 🚨
 
-
-Demo site: 
+Demo site: [https://next-youtube-livechat.vercel.app/](https://next-youtube-livechat.vercel.app/)
 
 ## Getting started
 
@@ -27,7 +26,7 @@ Youtube related functions
 
 Next Backend API
 
-> Act as proxy to bypass CORS.
+> Proxy to bypass CORS.
 
 - `app\api\yt-api\[...slug]\route.ts`
 
@@ -35,6 +34,7 @@ Next Backend API
 
 ```ts
 import useLiveChat from '@/hooks/useLiveChat';
+import { ChatItem } from '@/types/yt-data';
 
 const Demo = () => {
   /** loading state, optional. Can use to control show spinner before fetching start & hide spinner after fetching start **/
@@ -55,17 +55,23 @@ const Demo = () => {
     setIsReady(true);
   }, [setIsLoading, setIsReady]);
 
+  const onChatItemsReceive = useCallback(async (newChatItems: ChatItem[], existingChatItems: ChatItem[]) => {
+    console.log('new chat items', newChatItems);
+    console.log('received chat items', existingChatItems);
+  }, []);
+
   const onError = useCallback(async () => {
     setIsLoading(false);
     setIsReady(false);
     setUrl();
   }, [setIsLoading, setIsReady, setUrl]);
 
-  const { displayedMessage, cleanUp } = useLiveChat({
+  const { displayedMessage, rawChatItems, cleanUp } = useLiveChat({
     url,
     isReady,
     onBeforeStart,
     onStart,
+    onChatItemsReceive,
     onError,
   });
 

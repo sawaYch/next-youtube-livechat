@@ -1,6 +1,4 @@
 /** Thanks https://github.com/LinaTsukusu/youtube-chat */
-import axios from 'axios';
-
 import { ChatItem, YoutubeId } from '../types/yt-data';
 import { FetchOptions } from '../types/yt-response';
 import { getOptionsFromLivePage, parseChatData } from './yt-api-parser';
@@ -9,16 +7,20 @@ export async function fetchChat(
   options: FetchOptions
 ): Promise<[ChatItem[], string]> {
   const url = `/api/yt-api/youtubei/v1/live_chat/get_live_chat?key=${options.apiKey}`;
-  const res = await axios.post(url, {
-    context: {
-      client: {
-        clientVersion: options.clientVersion,
-        clientName: 'WEB',
+  const res = await fetch(url, {
+    method: 'POST',
+    body: JSON.stringify({
+      context: {
+        client: {
+          clientVersion: options.clientVersion,
+          clientName: 'WEB',
+        },
       },
-    },
-    continuation: options.continuation,
+      continuation: options.continuation,
+    }),
   });
-  return parseChatData(res.data);
+  const data = await res.json();
+  return parseChatData(data);
 }
 
 export async function fetchLivePageByLiveUrl(liveUrl: string) {
@@ -29,8 +31,9 @@ export async function fetchLivePageByLiveUrl(liveUrl: string) {
     'https://www.youtube.com',
     '/api/yt-api'
   );
-  const res = await axios.get(convertedLiveUrl);
-  return getOptionsFromLivePage(res.data.toString());
+  const res = await fetch(convertedLiveUrl);
+  const data = await res.json();
+  return getOptionsFromLivePage(data.toString());
 }
 
 export async function fetchLivePage(
@@ -40,8 +43,9 @@ export async function fetchLivePage(
   if (!url) {
     throw TypeError('not found id');
   }
-  const res = await axios.get(url);
-  return getOptionsFromLivePage(res.data.toString());
+  const res = await fetch(url);
+  const data = await res.json();
+  return getOptionsFromLivePage(data.toString());
 }
 
 function generateLiveUrl(id: YoutubeId) {

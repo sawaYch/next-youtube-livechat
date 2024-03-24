@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
 
 const YOUTUBE_URL = 'https://www.youtube.com';
@@ -11,14 +10,32 @@ const buildYouTubeEndpoint = (req: NextRequest) => {
 };
 
 const GET = async (req: NextRequest) => {
-  const res = await axios.get(buildYouTubeEndpoint(req));
-  return NextResponse.json(res.data, { status: 200 });
+  const res = await fetch(buildYouTubeEndpoint(req), { cache: 'no-store' })
+    .then((d) => d.text())
+    .then((d) => {
+      return d;
+    })
+    .catch((error) => {
+      throw new Error(`Server Action Failed: ${error.message}`);
+    });
+  return NextResponse.json(res, { status: 200 });
 };
 
 const POST = async (req: NextRequest) => {
   const postData = await req.json();
-  const res = await axios.post(buildYouTubeEndpoint(req), postData);
-  return NextResponse.json(res.data, { status: 200 });
+  const data = await fetch(buildYouTubeEndpoint(req), {
+    method: 'POST',
+    cache: 'no-store',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(postData),
+  })
+    .then((d) => d.json())
+    .catch((error) => {
+      throw new Error(`Server Action Failed: ${error.message}`);
+    });
+  return NextResponse.json(data, { status: 200 });
 };
 
 export { GET, POST };

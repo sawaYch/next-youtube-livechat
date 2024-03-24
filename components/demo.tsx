@@ -2,6 +2,7 @@
 
 import useLiveChat from '@/hooks/useLiveChat';
 import { useDemoStore } from '@/stores/store';
+import { ChatItem } from '@/types/yt-data';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useRef } from 'react';
 
@@ -31,7 +32,7 @@ const Demo = () => {
     setUrl();
   }, [setIsLoading, setIsReady, setUrl]);
 
-  const { displayedMessage, cleanUp } = useLiveChat({
+  const { messages, cleanUp } = useLiveChat({
     url,
     isReady,
     onBeforeStart,
@@ -48,13 +49,13 @@ const Demo = () => {
         1.1 >=
       scrollableMessageContainerRef.current.scrollHeight;
 
-    if (displayedMessage.length != 0 && shouldScrollToBottom) {
+    if (messages.length != 0 && shouldScrollToBottom) {
       endOfMessageDivRef.current?.scrollIntoView({
         behavior: 'smooth',
         block: 'end',
       });
     }
-  }, [displayedMessage.length]);
+  }, [messages.length]);
 
   return (
     <div className='z-40 mt-4 flex h-[calc(100dvh-10rem)] w-[calc(100dvw-10rem)] flex-col items-center justify-start'>
@@ -77,7 +78,7 @@ const Demo = () => {
             ref={scrollableMessageContainerRef}
             className='flex h-full w-full flex-col overflow-y-auto overflow-x-hidden pr-2'
           >
-            {displayedMessage?.map((message, index) => (
+            {messages?.map((message, index) => (
               <motion.div
                 key={index}
                 layout
@@ -89,7 +90,7 @@ const Demo = () => {
                   layout: {
                     type: 'spring',
                     bounce: 0.3,
-                    duration: displayedMessage.indexOf(message) * 0.05 + 0.2,
+                    duration: messages.indexOf(message) * 0.05 + 0.2,
                   },
                 }}
                 style={{
