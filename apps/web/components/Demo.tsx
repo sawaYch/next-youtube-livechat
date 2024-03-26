@@ -1,8 +1,7 @@
 "use client";
 
-import useLiveChat from "@/hooks/useLiveChat";
+import { useLiveChat } from "next-youtube-livechat";
 import { useDemoStore } from "@/stores/store";
-import { ChatItem } from "@/types/youtubeData";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useEffect, useRef } from "react";
 
@@ -10,12 +9,14 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import UrlInput from "@/components/UrlInput";
 
 import { cn } from "@/lib/utils";
+import { useToast } from "@/components/ui/use-toast";
 
 const Demo = () => {
   const { isReady, isLoading, setUrl, url, setIsReady, setIsLoading } =
     useDemoStore();
   const endOfMessageDivRef = useRef<HTMLDivElement>(null);
   const scrollableMessageContainerRef = useRef<HTMLDivElement>(null);
+  const { toast } = useToast();
 
   const onBeforeStart = useCallback(async () => {
     setIsLoading(true);
@@ -26,11 +27,19 @@ const Demo = () => {
     setIsReady(true);
   }, [setIsLoading, setIsReady]);
 
-  const onError = useCallback(async () => {
-    setIsLoading(false);
-    setIsReady(false);
-    setUrl();
-  }, [setIsLoading, setIsReady, setUrl]);
+  const onError = useCallback(
+    async (err: Error) => {
+      toast({
+        title: "🚨Oops...",
+        description: (err as unknown as Error).message,
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      setIsReady(false);
+      setUrl();
+    },
+    [setIsLoading, setIsReady, setUrl, toast],
+  );
 
   const { messages, cleanUp } = useLiveChat({
     url,

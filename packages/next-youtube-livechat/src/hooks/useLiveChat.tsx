@@ -1,10 +1,8 @@
-import { ChatItem } from "@/types/youtubeData";
+import { ChatItem } from "../types/youtubeData";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-
-import { useToast } from "@/components/ui/use-toast";
-
-import { fetchChat, fetchLivePageByLiveUrl } from "@/lib/youtubeApiRequests";
+import { fetchChat, fetchLivePageByLiveUrl } from "../libs/youtubeApiRequests";
+import React from "react";
 
 interface useLiveChatProps {
   onBeforeStart?: () => Promise<void>;
@@ -26,7 +24,6 @@ const useLiveChat = ({
   url,
   isReady,
 }: useLiveChatProps) => {
-  const { toast } = useToast();
   const [rawChatItems, setRawChatItems] = useState<ChatItem[]>([]);
   const rawChatItemRef = useRef(rawChatItems);
   const intervalHandle = useRef<NodeJS.Timeout>();
@@ -64,11 +61,6 @@ const useLiveChat = ({
           await onStart?.();
         }
       } catch (err) {
-        toast({
-          title: "🚨Oops...",
-          description: (err as unknown as Error).message,
-          variant: "destructive",
-        });
         // run task on something wrong
         await onError?.(err as unknown as Error);
       }
@@ -82,7 +74,6 @@ const useLiveChat = ({
     };
   }, [
     isReady,
-    toast,
     url,
     onBeforeStart,
     onStart,

@@ -1,6 +1,6 @@
 "use client";
 
-import { LiveChatThemeEditorFullInterface } from "@/types/livechatThemeEditor";
+import { LiveChatThemeEditorFullInterface } from "../types/livechatThemeEditor";
 import { type PropsWithChildren, useRef } from "react";
 import { StoreApi } from "zustand";
 

@@ -1,7 +1,7 @@
 import {
   LiveChatThemeEditorFullInterface,
   LiveChatThemeEditorInterface,
-} from "@/types/livechatThemeEditor";
+} from "../types/livechatThemeEditor";
 import { createContext, useContext } from "react";
 import { createStore, useStore as useZustandStore } from "zustand";
 import { useShallow } from "zustand/react/shallow";
