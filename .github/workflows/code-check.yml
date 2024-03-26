@@ -15,7 +15,7 @@ jobs:
           node-version: 18
 
       - name: Restore project deps
-        run: npm ci
+        run: npm i
 
       - name: Lint check
         run: turbo lint
