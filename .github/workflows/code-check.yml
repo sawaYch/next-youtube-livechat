@@ -14,8 +14,11 @@ jobs:
         with:
           node-version: 18
 
+      - name: Install Turbo
+        run: npm i -g turbo
+
       - name: Restore project deps
-        run: npm i
+        run: npm ci
 
       - name: Lint check
         run: turbo lint
