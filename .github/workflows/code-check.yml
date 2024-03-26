@@ -1,0 +1,27 @@
+name: Code Check
+on:
+  push:
+  workflow_call:
+
+jobs:
+  code-check:
+    name: Code Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Restore project deps
+        run: npm ci
+
+      - name: Lint check
+        run: turbo lint
+
+      - name: Code format check
+        run: turbo format
+
+      - name: Typescript check
+        run: turbo typecheck
