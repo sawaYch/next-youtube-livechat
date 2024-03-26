@@ -1,17 +1,18 @@
+import { createContext, useContext } from 'react';
+import { createStore, useStore as useZustandStore } from 'zustand';
+import { useShallow } from 'zustand/react/shallow';
+
 import {
   LiveChatThemeEditorFullInterface,
   LiveChatThemeEditorInterface,
-} from "../types/livechatThemeEditor";
-import { createContext, useContext } from "react";
-import { createStore, useStore as useZustandStore } from "zustand";
-import { useShallow } from "zustand/react/shallow";
+} from '../types/livechatThemeEditor';
 
 const storeContext = createContext<ReturnType<typeof initStore> | null>(null);
 export const StoreContextProvider = storeContext.Provider;
 
 function useStore<T>(selector: (state: LiveChatThemeEditorFullInterface) => T) {
   const store = useContext(storeContext);
-  if (!store) throw new Error("Store is missing the provider");
+  if (!store) throw new Error('Store is missing the provider');
   return useZustandStore(store, selector);
 }
 
@@ -30,7 +31,7 @@ export const useDemoStore = () => {
       setIsLoading: store.setIsLoading,
       setIsReady: store.setIsReady,
       setUrl: store.setUrl,
-    })),
+    }))
   );
 };
 

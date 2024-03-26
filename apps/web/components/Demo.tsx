@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useLiveChat } from "next-youtube-livechat";
-import { useDemoStore } from "@/stores/store";
-import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useEffect, useRef } from "react";
+import { useDemoStore } from '@/stores/store';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useLiveChat } from 'next-youtube-livechat';
+import { useCallback, useEffect, useRef } from 'react';
 
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
-import UrlInput from "@/components/UrlInput";
+import UrlInput from '@/components/UrlInput';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
+import { useToast } from '@/components/ui/use-toast';
 
-import { cn } from "@/lib/utils";
-import { useToast } from "@/components/ui/use-toast";
+import { cn } from '@/lib/utils';
 
 const Demo = () => {
   const { isReady, isLoading, setUrl, url, setIsReady, setIsLoading } =
@@ -30,15 +30,15 @@ const Demo = () => {
   const onError = useCallback(
     async (err: Error) => {
       toast({
-        title: "🚨Oops...",
+        title: '🚨Oops...',
         description: (err as unknown as Error).message,
-        variant: "destructive",
+        variant: 'destructive',
       });
       setIsLoading(false);
       setIsReady(false);
       setUrl();
     },
-    [setIsLoading, setIsReady, setUrl, toast],
+    [setIsLoading, setIsReady, setUrl, toast]
   );
 
   const { messages, cleanUp } = useLiveChat({
@@ -60,15 +60,15 @@ const Demo = () => {
 
     if (messages.length != 0 && shouldScrollToBottom) {
       endOfMessageDivRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "end",
+        behavior: 'smooth',
+        block: 'end',
       });
     }
   }, [messages.length]);
 
   return (
-    <div className="z-40 mt-4 flex h-[calc(100dvh-10rem)] w-[calc(100dvw-10rem)] flex-col items-center justify-start">
-      <div className="flex p-4 h-full w-full flex-col overflow-y-auto overflow-x-hidden gap-4">
+    <div className='z-40 mt-4 flex h-[calc(100dvh-10rem)] w-[calc(100dvw-10rem)] flex-col items-center justify-start'>
+      <div className='flex p-4 h-full w-full flex-col overflow-y-auto overflow-x-hidden gap-4'>
         <UrlInput
           isLoading={isLoading}
           isReady={isReady}
@@ -85,7 +85,7 @@ const Demo = () => {
         <AnimatePresence>
           <div
             ref={scrollableMessageContainerRef}
-            className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden pr-2"
+            className='flex h-full w-full flex-col overflow-y-auto overflow-x-hidden pr-2'
           >
             {messages?.map((message, index) => (
               <motion.div
@@ -97,7 +97,7 @@ const Demo = () => {
                 transition={{
                   opacity: { duration: 0.1 },
                   layout: {
-                    type: "spring",
+                    type: 'spring',
                     bounce: 0.3,
                     duration: messages.indexOf(message) * 0.05 + 0.2,
                   },
@@ -107,19 +107,19 @@ const Demo = () => {
                   originY: 0.5,
                 }}
                 className={cn(
-                  "flex flex-col items-end gap-2 whitespace-pre-wrap p-4",
+                  'flex flex-col items-end gap-2 whitespace-pre-wrap p-4'
                 )}
               >
-                <div className="flex items-center gap-3">
-                  <div className="max-w-xs rounded-md bg-accent p-3">
-                    <div className="rounded-lg bg-primary px-2 mb-2 w-fit">
+                <div className='flex items-center gap-3'>
+                  <div className='max-w-xs rounded-md bg-accent p-3'>
+                    <div className='rounded-lg bg-primary px-2 mb-2 w-fit'>
                       {message.name}
                     </div>
-                    <span className="relative inline-block">
+                    <span className='relative inline-block'>
                       {message.message}
                     </span>
                   </div>
-                  <Avatar className="flex items-center justify-center">
+                  <Avatar className='flex items-center justify-center'>
                     <AvatarImage
                       src={message.avatar}
                       alt={message.name}
@@ -130,7 +130,7 @@ const Demo = () => {
                 </div>
               </motion.div>
             ))}
-            <div id="endOfMessageDiv" ref={endOfMessageDivRef} />
+            <div id='endOfMessageDiv' ref={endOfMessageDivRef} />
           </div>
         </AnimatePresence>
       </div>

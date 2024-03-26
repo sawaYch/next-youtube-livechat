@@ -1,5 +1,5 @@
 /** Thanks https://github.com/LinaTsukusu/youtube-chat */
-import { ChatItem, ImageItem, MessageItem } from "../types/youtubeData";
+import { ChatItem, ImageItem, MessageItem } from '../types/youtubeData';
 import {
   Action,
   FetchOptions,
@@ -10,19 +10,19 @@ import {
   LiveChatTextMessageRenderer,
   MessageRun,
   Thumbnail,
-} from "../types/youtubeResponse";
+} from '../types/youtubeResponse';
 
 export function getOptionsFromLivePage(
-  data: string,
+  data: string
 ): FetchOptions & { liveId: string } {
   let liveId: string;
   const idResult = data.match(
-    /<link rel="canonical" href="https:\/\/www.youtube.com\/watch\?v=(.+?)">/,
+    /<link rel="canonical" href="https:\/\/www.youtube.com\/watch\?v=(.+?)">/
   );
   if (idResult) {
     liveId = idResult[1];
   } else {
-    throw new Error("Live Stream was not found");
+    throw new Error('Live Stream was not found');
   }
 
   const replayResult = data.match(/['"]isReplay['"]:\s*(true)/);
@@ -35,7 +35,7 @@ export function getOptionsFromLivePage(
   if (keyResult) {
     apiKey = keyResult[1];
   } else {
-    throw new Error("API Key was not found");
+    throw new Error('API Key was not found');
   }
 
   let clientVersion: string;
@@ -43,17 +43,17 @@ export function getOptionsFromLivePage(
   if (verResult) {
     clientVersion = verResult[1];
   } else {
-    throw new Error("Client Version was not found");
+    throw new Error('Client Version was not found');
   }
 
   let continuation: string;
   const continuationResult = data.match(
-    /['"]continuation['"]:\s*['"](.+?)['"]/,
+    /['"]continuation['"]:\s*['"](.+?)['"]/
   );
   if (continuationResult) {
     continuation = continuationResult[1];
   } else {
-    throw new Error("Continuation was not found");
+    throw new Error('Continuation was not found');
   }
 
   return {
@@ -75,7 +75,7 @@ export function parseChatData(data: GetLiveChatResponse): [ChatItem[], string] {
 
   const continuationData =
     data.continuationContents.liveChatContinuation.continuations[0];
-  let continuation = "";
+  let continuation = '';
   if (continuationData.invalidationContinuationData) {
     continuation = continuationData.invalidationContinuationData.continuation;
   } else if (continuationData.timedContinuationData) {
@@ -95,8 +95,8 @@ function parseThumbnailToImageItem(data: Thumbnail[], alt: string): ImageItem {
     };
   } else {
     return {
-      url: "",
-      alt: "",
+      url: '',
+      alt: '',
     };
   }
 }
@@ -108,15 +108,15 @@ function convertColorToHex6(colorNum: number) {
 /** メッセージrun配列をMessageItem配列へ変換 */
 function parseMessages(runs: MessageRun[]): MessageItem[] {
   return runs.map((run: MessageRun): MessageItem => {
-    if ("text" in run) {
+    if ('text' in run) {
       return run;
     } else {
       // Emoji
       const thumbnail = run.emoji.image.thumbnails.shift();
       const isCustomEmoji = Boolean(run.emoji.isCustomEmoji);
-      const shortcut = run.emoji.shortcuts ? run.emoji.shortcuts[0] : "";
+      const shortcut = run.emoji.shortcuts ? run.emoji.shortcuts[0] : '';
       return {
-        url: thumbnail ? thumbnail.url : "",
+        url: thumbnail ? thumbnail.url : '',
         alt: shortcut,
         isCustomEmoji: isCustomEmoji,
         emojiText: isCustomEmoji ? shortcut : run.emoji.emojiId,
@@ -127,7 +127,7 @@ function parseMessages(runs: MessageRun[]): MessageItem[] {
 
 /** actionの種類を判別してRendererを返す */
 function rendererFromAction(
-  action: Action,
+  action: Action
 ):
   | LiveChatTextMessageRenderer
   | LiveChatPaidMessageRenderer
@@ -157,20 +157,20 @@ function parseActionToChatItem(data: Action): ChatItem | null {
     return null;
   }
   let message: MessageRun[] = [];
-  if ("message" in messageRenderer) {
+  if ('message' in messageRenderer) {
     message = messageRenderer.message.runs;
-  } else if ("headerSubtext" in messageRenderer) {
+  } else if ('headerSubtext' in messageRenderer) {
     message = messageRenderer.headerSubtext.runs;
   }
 
-  const authorNameText = messageRenderer.authorName?.simpleText ?? "";
+  const authorNameText = messageRenderer.authorName?.simpleText ?? '';
   const ret: ChatItem = {
     id: messageRenderer.id,
     author: {
       name: authorNameText,
       thumbnail: parseThumbnailToImageItem(
         messageRenderer.authorPhoto.thumbnails,
-        authorNameText,
+        authorNameText
       ),
       channelId: messageRenderer.authorExternalChannelId,
     },
@@ -189,20 +189,20 @@ function parseActionToChatItem(data: Action): ChatItem | null {
         ret.author.badge = {
           thumbnail: parseThumbnailToImageItem(
             badge.customThumbnail.thumbnails,
-            badge.tooltip,
+            badge.tooltip
           ),
           label: badge.tooltip,
         };
         ret.isMembership = true;
       } else {
         switch (badge.icon?.iconType) {
-          case "OWNER":
+          case 'OWNER':
             ret.isOwner = true;
             break;
-          case "VERIFIED":
+          case 'VERIFIED':
             ret.isVerified = true;
             break;
-          case "MODERATOR":
+          case 'MODERATOR':
             ret.isModerator = true;
             break;
         }
@@ -210,16 +210,16 @@ function parseActionToChatItem(data: Action): ChatItem | null {
     }
   }
 
-  if ("sticker" in messageRenderer) {
+  if ('sticker' in messageRenderer) {
     ret.superchat = {
       amount: messageRenderer.purchaseAmountText.simpleText,
       color: convertColorToHex6(messageRenderer.backgroundColor),
       sticker: parseThumbnailToImageItem(
         messageRenderer.sticker.thumbnails,
-        messageRenderer.sticker.accessibility.accessibilityData.label,
+        messageRenderer.sticker.accessibility.accessibilityData.label
       ),
     };
-  } else if ("purchaseAmountText" in messageRenderer) {
+  } else if ('purchaseAmountText' in messageRenderer) {
     ret.superchat = {
       amount: messageRenderer.purchaseAmountText.simpleText,
       color: convertColorToHex6(messageRenderer.bodyBackgroundColor),

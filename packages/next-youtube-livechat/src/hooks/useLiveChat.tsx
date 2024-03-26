@@ -1,15 +1,16 @@
-import { ChatItem } from "../types/youtubeData";
-import Image from "next/image";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { fetchChat, fetchLivePageByLiveUrl } from "../libs/youtubeApiRequests";
-import React from "react";
+import Image from 'next/image';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React from 'react';
+
+import { fetchChat, fetchLivePageByLiveUrl } from '../libs/youtubeApiRequests';
+import { ChatItem } from '../types/youtubeData';
 
 interface useLiveChatProps {
   onBeforeStart?: () => Promise<void>;
   onStart?: () => Promise<void>;
   onChatItemsReceive?: (
     newChatItems: ChatItem[],
-    existingChatItems: ChatItem[],
+    existingChatItems: ChatItem[]
   ) => Promise<void>;
   onError?: (err: Error) => Promise<void>;
   url: string | undefined;
@@ -89,9 +90,9 @@ const useLiveChat = ({
     }
     return rawChatItems.map((it) => ({
       message: it.message.map((it, index) => {
-        if ("text" in it) {
+        if ('text' in it) {
           return (
-            <span className="relative inline-block" key={`${it.text}${index}`}>
+            <span className='relative inline-block' key={`${it.text}${index}`}>
               {it.text}
             </span>
           );
@@ -99,7 +100,7 @@ const useLiveChat = ({
         return (
           <Image
             key={`${it.emojiText}${index}`}
-            className="relative inline-block"
+            className='relative inline-block'
             src={it.url}
             alt={it.alt}
             width={24}

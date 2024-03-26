@@ -5,13 +5,14 @@
     "build": "turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "turbo format",
+    "format:fix": "turbo format:fix",
+    "typecheck": "turbo typecheck"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
-    "prettier": "^3.2.5",
-    "turbo": "latest"
+    "turbo": "^1.13.0"
   },
   "engines": {
     "node": ">=18"
