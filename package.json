@@ -7,7 +7,8 @@
     "lint": "turbo lint",
     "format": "turbo format",
     "format:fix": "turbo format:fix",
-    "typecheck": "turbo typecheck"
+    "typecheck": "turbo typecheck",
+    "publish-package": "turbo publish-package"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
