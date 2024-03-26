@@ -1,50 +1,25 @@
 {
   "name": "next-youtube-livechat",
-  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "format": "npx prettier -c \"**/*.{ts,tsx,css}\"",
-    "format:fix": "npx prettier -w \"**/*.{ts,tsx,css}\"",
-    "typecheck": "tsc --noEmit"
-  },
-  "dependencies": {
-    "@radix-ui/react-avatar": "^1.0.4",
-    "@radix-ui/react-label": "^2.0.2",
-    "@radix-ui/react-slot": "^1.0.2",
-    "@radix-ui/react-toast": "^1.1.5",
-    "@radix-ui/react-tooltip": "^1.0.7",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.0",
-    "framer-motion": "^11.0.20",
-    "lucide-react": "^0.338.0",
-    "next": "14.1.0",
-    "next-server-task": "^0.1.2",
-    "next-themes": "^0.2.1",
-    "react": "^18",
-    "react-device-detect": "^2.2.3",
-    "react-dom": "^18",
-    "tailwind-merge": "^2.2.1",
-    "tailwindcss-animate": "^1.0.7",
-    "zustand": "^4.5.2"
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "format": "turbo format",
+    "format:fix": "turbo format:fix",
+    "typecheck": "turbo typecheck"
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
-    "@types/node": "^20",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
-    "autoprefixer": "^10.0.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.0",
-    "eslint-config-prettier": "^9.1.0",
-    "postcss": "^8",
-    "prettier": "^3.2.5",
-    "prettier-plugin-tailwindcss": "^0.5.11",
-    "tailwindcss": "^3.3.0",
-    "typed-emitter": "^2.1.0",
-    "typescript": "^5"
-  }
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
+    "turbo": "^1.13.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@9.6.7",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
 }

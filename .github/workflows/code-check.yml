@@ -14,14 +14,17 @@ jobs:
         with:
           node-version: 18
 
+      - name: Install Turbo
+        run: npm i -g turbo
+
       - name: Restore project deps
         run: npm ci
 
       - name: Lint check
-        run: npm run lint
+        run: turbo lint
 
       - name: Code format check
-        run: npm run format
+        run: turbo format
 
       - name: Typescript check
-        run: npm run typecheck
+        run: turbo typecheck
