@@ -22,6 +22,7 @@ const nextConfig = {
       },
     ],
   },
+  transpilePackages: ['@repo/next-youtube-livechat'],
 };
 
 export default nextConfig;
