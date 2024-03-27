@@ -1,21 +1,20 @@
 {
   "name": "next-youtube-livechat",
-  "version": "0.1.0",
+  "version": "0.1.13",
   "private": false,
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
+  "source": "src/index.ts",
   "scripts": {
     "dev": "npm run build -- --watch",
-    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "build": "npm run build:esm && npm run build:cjs",
+    "build:esm": "tsc",
+    "build:cjs": "tsc --module commonjs --outDir dist/cjs",
     "lint": "eslint --ext .ts,.tsx",
     "format": "npx prettier -c \"**/*.{ts,tsx,css}\"",
     "format:fix": "npx prettier -w \"**/*.{ts,tsx,css}\"",
-    "typecheck": "tsc --noEmit",
-    "publish-packages": ""
-  },
-  "exports": {
-    ".": "./src/index.ts"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "next": "^14.1.1",
@@ -26,5 +25,12 @@
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "tsup": "^8.0.2"
-  }
+  },
+  "files": [
+    "dist",
+    "src",
+    "LICENSE",
+    "README.md",
+    "tsconfig.json"
+  ]
 }

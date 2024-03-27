@@ -42,8 +42,8 @@ const Demo = () => {
   );
 
   const { messages, cleanUp } = useLiveChat({
-    url,
-    isReady,
+    url: 'https://www.youtube.com/watch?v=jfKfPfyJRdk',
+    isReady: true,
     onBeforeStart,
     onStart,
     onError,

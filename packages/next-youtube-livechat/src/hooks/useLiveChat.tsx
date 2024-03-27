@@ -74,8 +74,8 @@ const useLiveChat = ({
       }
     };
   }, [
-    isReady,
     url,
+    isReady,
     onBeforeStart,
     onStart,
     onError,

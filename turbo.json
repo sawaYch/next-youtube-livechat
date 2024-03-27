@@ -10,17 +10,18 @@
       "dependsOn": ["^lint"]
     },
     "format": {
+      "cache": false,
       "dependsOn": ["^format"]
     },
     "format:fix": {
+      "cache": false,
       "dependsOn": ["^format:fix"]
     },
     "typecheck": {
       "dependsOn": ["^typecheck"]
     },
     "dev": {
-      "cache": false,
-      "persistent": true
+      "cache": false
     }
   }
 }
