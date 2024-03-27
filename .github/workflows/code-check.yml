@@ -8,11 +8,9 @@ jobs:
     name: Code Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-node@v4
 
       - name: Install Turbo
         run: npm i -g turbo
@@ -26,5 +24,6 @@ jobs:
       - name: Code format check
         run: turbo format
 
+      # FIXME: always fail on github action don;t know why
       # - name: Typescript check
       #   run: turbo typecheck
