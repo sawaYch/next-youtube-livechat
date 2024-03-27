@@ -21,6 +21,9 @@
     "react": "^18",
     "react-dom": "^18"
   },
+  "exports": {
+    "./*": "./src/index.ts"
+  },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.1.1",
     "@repo/eslint-config": "*",
