@@ -9,21 +9,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - uses: actions/setup-node@v4
+        with:
+          fetch-depth: 2
 
-      - name: Install Turbo
-        run: npm i -g turbo
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
       - name: Restore project deps
         run: npm ci
 
       - name: Lint check
-        run: turbo lint
+        run: npm run lint
 
       - name: Code format check
-        run: turbo format
+        run: npm run format
 
-      # FIXME: always fail on github action don;t know why
-      # - name: Typescript check
-      #   run: turbo typecheck
+      - name: Build
+        run: npm run build
+
+      - name: Typescript check
+        run: npm run typecheck

@@ -2,13 +2,13 @@
   "name": "next-youtube-livechat-monorepo",
   "private": true,
   "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "lint": "turbo lint",
-    "format": "turbo format",
-    "format:fix": "turbo format:fix",
-    "typecheck": "turbo typecheck",
-    "publish-package": "turbo publish-package"
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "format": "turbo run format",
+    "format:fix": "turbo run format:fix",
+    "typecheck": "turbo run typecheck",
+    "publish-package": "turbo run publish-package"
   },
   "devDependencies": {
     "@repo/eslint-config": "*",
