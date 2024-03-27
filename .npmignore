@@ -25,6 +25,7 @@ coverage
 .next/
 out/
 build
+src
 
 # Debug
 npm-debug.log*
