@@ -18,6 +18,8 @@
       "dependsOn": ["^format:fix"]
     },
     "typecheck": {
+      "cache": false,
+      "dependsOn": ["^typecheck"]
     },
     "dev": {
       "cache": false

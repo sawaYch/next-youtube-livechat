@@ -1,5 +1,5 @@
 {
-  "name": "next-youtube-livechat",
+  "name": "next-youtube-livechat-monorepo",
   "private": true,
   "scripts": {
     "build": "turbo build",
