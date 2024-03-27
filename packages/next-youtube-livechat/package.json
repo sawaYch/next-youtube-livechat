@@ -6,6 +6,7 @@
   "module": "dist/esm/index.js",
   "types": "dist/esm/index.d.ts",
   "source": "src/index.ts",
+  "type": "module",
   "scripts": {
     "dev": "npm run build -- --watch",
     "build": "npm run build:esm",
@@ -20,9 +21,6 @@
     "next": "^14.1.1",
     "react": "^18",
     "react-dom": "^18"
-  },
-  "exports": {
-    "./*": "./src/index.ts"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^14.1.1",
