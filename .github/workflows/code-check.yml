@@ -26,5 +26,5 @@ jobs:
       - name: Code format check
         run: turbo format
 
-      # - name: Typescript check
-      #   run: turbo typecheck
+      - name: Typescript check
+        run: turbo typecheck
