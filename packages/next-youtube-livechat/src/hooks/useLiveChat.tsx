@@ -3,6 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import React from 'react';
 
 import { fetchChat, fetchLivePageByLiveUrl } from '../libs/youtubeApiRequests';
+import { useLIveChatReturnType } from '../types/useLiveChatType';
 import { ChatItem, YoutubeDetails } from '../types/youtubeData';
 import { FetchOptions } from '../types/youtubeResponse';
 
@@ -25,7 +26,7 @@ const useLiveChat = ({
   onError,
   url,
   isReady,
-}: useLiveChatProps) => {
+}: useLiveChatProps): useLIveChatReturnType => {
   const [rawChatItems, setRawChatItems] = useState<ChatItem[]>([]);
   const rawChatItemRef = useRef(rawChatItems);
   const intervalHandle = useRef<NodeJS.Timeout | null>(null);
@@ -136,6 +137,24 @@ const useLiveChat = ({
       }),
       avatar: it.author.thumbnail?.url,
       name: it.author.name,
+      wordCount: it.message
+        .map((it) => {
+          if ('text' in it) {
+            return it.text;
+          }
+          return ' ';
+        })
+        .join('')
+        .trim()
+        .split(/\s+/).length,
+      characterCount: it.message
+        .map((it) => {
+          if ('text' in it) {
+            return it.text;
+          }
+          return ' ';
+        })
+        .join('').length,
     }));
   }, [isReady, rawChatItems, url]);
 
