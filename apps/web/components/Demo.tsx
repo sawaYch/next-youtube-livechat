@@ -146,8 +146,8 @@ const Demo = () => {
           </div>
         )}
 
-        <AnimatePresence>
-          {messages.length != 0 && (
+        {messages.length != 0 && (
+          <AnimatePresence>
             <div className='flex h-full w-full flex-col overflow-y-auto overflow-x-hidden pr-2'>
               <AutoSizer>
                 {({ width, height }) => (
@@ -189,8 +189,8 @@ const Demo = () => {
                 )}
               </AutoSizer>
             </div>
-          )}
-        </AnimatePresence>
+          </AnimatePresence>
+        )}
       </div>
     </div>
   );
