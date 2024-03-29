@@ -1,12 +1,19 @@
 # `next-youtube-livechat`
 
-Fetch YouTube live chat without API using NextJS which bypass CORS.
-
-🚨 You will need to take full responsibility for your action 🚨
-
+Fetch YouTube live chat without API using NextJS which bypass CORS.  
 Demo site: [https://next-youtube-livechat.vercel.app/](https://next-youtube-livechat.vercel.app/)
 
+<sup><sub>🚨 You will need to take full responsibility for your action 🚨</sub></sup>
+
 ## Getting started
+
+### Installation
+
+> Package already provide types files
+
+```ts
+npm i next-youtube-livechat
+```
 
 ### Source Code
 

@@ -1,6 +1,6 @@
 {
   "name": "next-youtube-livechat",
-  "version": "0.1.22",
+  "version": "0.1.23",
   "private": false,
   "description": "Fetch YouTube live chat without API using NextJS + React Hook which bypass CORS.",
   "author": "Sawa",
