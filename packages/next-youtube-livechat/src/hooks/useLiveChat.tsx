@@ -69,7 +69,6 @@ const useLiveChat = ({
         onStart?.();
       }
     } catch (err) {
-      console.log('run on error');
       onError?.(err as unknown as Error);
     }
   }, [onBeforeStart, onError, onStart, url]);
@@ -91,7 +90,6 @@ const useLiveChat = ({
       }, 1000);
     } catch (err) {
       // run task on something wrong
-      console.log('onError 2');
       onError?.(err as unknown as Error);
       cleanUp();
     }

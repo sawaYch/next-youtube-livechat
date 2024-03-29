@@ -89,7 +89,6 @@ export function getOptionsFromLivePage(
     channelName = channelNameResult[0]
       .replace('ownerChannelName":"', '')
       .replace('","liveBroadcast', '');
-    console.log(channelNameResult);
   } else {
     throw new Error('Channel Name was not found');
   }
