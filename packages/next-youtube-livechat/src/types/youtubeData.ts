@@ -38,3 +38,10 @@ export type YoutubeId =
   | { channelId: string }
   | { liveId: string }
   | { handle: string };
+
+export interface YoutubeDetails {
+  title: string;
+  thumbnail: string;
+  channelName: string;
+  channelUrl: string;
+}

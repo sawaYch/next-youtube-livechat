@@ -3,16 +3,17 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import React from 'react';
 
 import { fetchChat, fetchLivePageByLiveUrl } from '../libs/youtubeApiRequests';
-import { ChatItem } from '../types/youtubeData';
+import { ChatItem, YoutubeDetails } from '../types/youtubeData';
+import { FetchOptions } from '../types/youtubeResponse';
 
 interface useLiveChatProps {
-  onBeforeStart?: () => Promise<void>;
-  onStart?: () => Promise<void>;
+  onBeforeStart?: () => void;
+  onStart?: () => void;
   onChatItemsReceive?: (
     newChatItems: ChatItem[],
     existingChatItems: ChatItem[]
-  ) => Promise<void>;
-  onError?: (err: Error) => Promise<void>;
+  ) => void;
+  onError?: (err: Error) => void;
   url: string | undefined;
   isReady: boolean;
 }
@@ -27,51 +28,77 @@ const useLiveChat = ({
 }: useLiveChatProps) => {
   const [rawChatItems, setRawChatItems] = useState<ChatItem[]>([]);
   const rawChatItemRef = useRef(rawChatItems);
-  const intervalHandle = useRef<NodeJS.Timeout>();
+  const intervalHandle = useRef<NodeJS.Timeout | null>(null);
   rawChatItemRef.current = rawChatItems;
+  const [options, setOptions] = useState<
+    FetchOptions & {
+      liveId: string;
+    }
+  >();
+  const [liveDetails, setLiveDetails] = useState<YoutubeDetails>();
 
-  const cleanUp = useCallback(async () => {
-    if (intervalHandle.current) {
+  const cleanUp = useCallback(() => {
+    if (intervalHandle?.current) {
       clearInterval(intervalHandle.current);
     }
     setRawChatItems([]);
+    setOptions(undefined);
+    setLiveDetails(undefined);
   }, [intervalHandle]);
 
   useEffect(() => {
-    (async () => {
-      try {
-        // url must provide
-        if (url) {
-          // run task before start
-          await onBeforeStart?.();
-          let options = await fetchLivePageByLiveUrl(url);
-
-          intervalHandle.current = setInterval(async () => {
-            if (!isReady) {
-              cleanUp();
-              return;
-            }
-            const [chatItems, continuation] = await fetchChat(options);
-            if (chatItems.length != 0) {
-              await onChatItemsReceive?.(chatItems, rawChatItemRef.current);
-            }
-            setRawChatItems((prev) => [...prev, ...chatItems]);
-            options.continuation = continuation;
-          }, 1000);
-          // run task on start success
-          await onStart?.();
-        }
-      } catch (err) {
-        // run task on something wrong
-        await onError?.(err as unknown as Error);
+    // url must provide
+    try {
+      if (url) {
+        // run task before start
+        onBeforeStart?.();
+        fetchLivePageByLiveUrl(url)
+          .then((data) => {
+            setOptions(data);
+            setLiveDetails({
+              title: data.liveTitle,
+              thumbnail: data.liveThumbnail,
+              channelName: data.channelName,
+              channelUrl: data.channelUrl,
+            });
+          })
+          .catch((err) => {
+            onError?.(err as unknown as Error);
+          });
+        // run task on start success
+        onStart?.();
       }
-    })();
+    } catch (err) {
+      console.log('run on error');
+      onError?.(err as unknown as Error);
+    }
+  }, [onBeforeStart, onError, onStart, url]);
+
+  useEffect(() => {
+    if (options == null || !isReady || !url) return;
+    try {
+      intervalHandle.current = setInterval(async () => {
+        if (!isReady) {
+          cleanUp();
+          return;
+        }
+        const [chatItems, continuation] = await fetchChat(options);
+        if (chatItems.length != 0) {
+          onChatItemsReceive?.(chatItems, rawChatItemRef.current);
+        }
+        setRawChatItems((prev) => [...prev, ...chatItems]);
+        options.continuation = continuation;
+      }, 1000);
+    } catch (err) {
+      // run task on something wrong
+      console.log('onError 2');
+      onError?.(err as unknown as Error);
+      cleanUp();
+    }
 
     return () => {
       // clean up interval timer
-      if (intervalHandle.current) {
-        clearInterval(intervalHandle.current);
-      }
+      cleanUp();
     };
   }, [
     url,
@@ -79,8 +106,9 @@ const useLiveChat = ({
     onBeforeStart,
     onStart,
     onError,
-    cleanUp,
     onChatItemsReceive,
+    cleanUp,
+    options,
   ]);
 
   // render text & emoji tsx element
@@ -113,7 +141,7 @@ const useLiveChat = ({
     }));
   }, [isReady, rawChatItems, url]);
 
-  return { rawChatItems, messages, cleanUp };
+  return { rawChatItems, messages, liveDetails };
 };
 
 export default useLiveChat;

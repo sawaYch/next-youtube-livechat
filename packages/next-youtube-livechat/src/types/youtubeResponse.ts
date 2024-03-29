@@ -171,4 +171,8 @@ export interface FetchOptions {
   apiKey: string;
   clientVersion: string;
   continuation: string;
+  liveThumbnail: string;
+  liveTitle: string;
+  channelName: string;
+  channelUrl: string;
 }

@@ -3,6 +3,7 @@
 import { useDemoStore } from '@/stores/store';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useLiveChat } from 'next-youtube-livechat';
+import Image from 'next/image';
 import { useCallback, useEffect, useRef } from 'react';
 
 import UrlInput from '@/components/UrlInput';
@@ -18,17 +19,17 @@ const Demo = () => {
   const scrollableMessageContainerRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  const onBeforeStart = useCallback(async () => {
+  const onBeforeStart = useCallback(() => {
     setIsLoading(true);
   }, [setIsLoading]);
 
-  const onStart = useCallback(async () => {
+  const onStart = useCallback(() => {
     setIsLoading(false);
     setIsReady(true);
   }, [setIsLoading, setIsReady]);
 
   const onError = useCallback(
-    async (err: Error) => {
+    (err: Error) => {
       toast({
         title: '🚨Oops...',
         description: (err as unknown as Error).message,
@@ -41,7 +42,7 @@ const Demo = () => {
     [setIsLoading, setIsReady, setUrl, toast]
   );
 
-  const { messages, cleanUp } = useLiveChat({
+  const { messages, liveDetails } = useLiveChat({
     url,
     isReady,
     onBeforeStart,
@@ -79,9 +80,21 @@ const Demo = () => {
             }
             setIsReady(false);
             setUrl();
-            await cleanUp();
           }}
         />
+        {liveDetails && (
+          <div className='items-center flex flex-col justify-center'>
+            <Image
+              src={liveDetails.thumbnail}
+              width={240}
+              height={160}
+              alt='thumbnail'
+            />
+            <div>{liveDetails.title}</div>
+            <div>Channel Owner Name: {liveDetails.channelName}</div>
+            <div>Channel Profile URL: {liveDetails.channelUrl}</div>
+          </div>
+        )}
         <AnimatePresence>
           <div
             ref={scrollableMessageContainerRef}

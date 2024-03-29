@@ -56,11 +56,66 @@ export function getOptionsFromLivePage(
     throw new Error('Continuation was not found');
   }
 
+  let liveThumbnail: string;
+  const liveThumbnailResult = data.match(
+    /<link rel="image_src" href="https:\/\/i.ytimg.com\/vi\/[^\s-]*\/maxresdefault_live.jpg">/
+  );
+  if (liveThumbnailResult) {
+    liveThumbnail = liveThumbnailResult[0];
+    const res = liveThumbnail.match(/https?:\/\/[^\s">]+/)?.[0];
+    if (res == null) {
+      throw new Error('Live Thumbnail image url parse error');
+    }
+    liveThumbnail = res;
+  } else {
+    throw new Error('Live Thumbnail was not found');
+  }
+
+  let liveTitle: string;
+  const liveTitleResult = data.match(
+    /<meta name="title" content="[\s\S]*"><meta name="description"/
+  );
+  if (liveTitleResult) {
+    liveTitle = liveTitleResult[0]
+      .replace('<meta name="title" content="', '')
+      .replace('"><meta name="description"', '');
+  } else {
+    throw new Error('Live Title was not found');
+  }
+
+  let channelName: string;
+  const channelNameResult = data.match(/ownerChannelName":".*","liveBroadcast/);
+  if (channelNameResult) {
+    channelName = channelNameResult[0]
+      .replace('ownerChannelName":"', '')
+      .replace('","liveBroadcast', '');
+    console.log(channelNameResult);
+  } else {
+    throw new Error('Channel Name was not found');
+  }
+
+  let channelUrl: string = 'https://www.youtube.com/';
+  const channelUrlResult = data.match(
+    /"ownerProfileUrl":"http:\/\/www.youtube.com\/.*","externalChannelId":/
+  );
+  if (channelUrlResult) {
+    const channelAtId = channelUrlResult[0]
+      .replace('"ownerProfileUrl":"http://www.youtube.com/', '')
+      .replace('","externalChannelId":', '');
+    channelUrl += channelAtId;
+  } else {
+    throw new Error('Channel Url was not found');
+  }
+
   return {
     liveId,
     apiKey,
     clientVersion,
     continuation,
+    liveThumbnail,
+    liveTitle,
+    channelName,
+    channelUrl,
   };
 }
 

@@ -6,7 +6,7 @@ const AppCreditSection = () => {
   return (
     <div className='z-10 flex select-none self-end'>
       <div className='flex flex-col items-center justify-center'>
-        <div className='text-[0.7rem]'>Next YouTube Chat</div>
+        <div className='text-[0.7rem]'>Next YouTube Livechat (Demo)</div>
         <div className='text-[0.6rem]'>v{currentVersion}</div>
         <div className='text-[0.6rem]'>Sawa</div>
       </div>
