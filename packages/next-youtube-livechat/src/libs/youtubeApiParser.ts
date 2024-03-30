@@ -39,10 +39,15 @@ export function getOptionsFromLivePage(
   }
 
   let clientVersion: string;
-  const verResult = data.match(/['"]clientVersion['"]:\s*['"]([\d.]+?)['"]/);
+  const verResult = data.match(
+    /['"]clientVersion['"]:['"].*['"],['"]osVersion['"]/
+  );
   if (verResult) {
-    clientVersion = verResult[1];
+    clientVersion = verResult[0]
+      .replace('"clientVersion":"', '')
+      .replace('","osVersion"', '');
   } else {
+    console.error('Client Version was not found', data);
     throw new Error('Client Version was not found');
   }
 

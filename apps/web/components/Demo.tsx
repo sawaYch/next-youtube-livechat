@@ -130,67 +130,70 @@ const Demo = () => {
             setUrl();
           }}
         />
-        {liveDetails && (
-          <div className='items-center flex flex-col justify-center'>
-            <Image
-              src={liveDetails.thumbnail}
-              width='0'
-              height='0'
-              sizes='100vw'
-              style={{ width: '320px', height: 'auto' }}
-              alt='thumbnail'
-            />
-            <div>{liveDetails.title}</div>
-            <div>Channel Owner Name: {liveDetails.channelName}</div>
-            <div>Channel Profile URL: {liveDetails.channelUrl}</div>
-          </div>
-        )}
-
-        {messages.length != 0 && (
-          <AnimatePresence>
-            <div className='flex h-full w-full flex-col overflow-y-auto overflow-x-hidden pr-2'>
-              <AutoSizer>
-                {({ width, height }) => (
-                  <List
-                    ref={listRef}
-                    width={width}
-                    height={height}
-                    rowCount={messages.length}
-                    onScroll={({ clientHeight, scrollHeight, scrollTop }) => {
-                      if (scrollTop + clientHeight + 20 >= scrollHeight) {
-                        // when scroll to bottom list, keep scroll to bottom on new message receive
-                        if (!enableAutoScroll) {
-                          setEnableAutoScroll(true);
-                        }
-                      } else {
-                        if (enableAutoScroll) {
-                          setEnableAutoScroll(false);
-                        }
-                      }
-                    }}
-                    rowHeight={(page: Index) => {
-                      const cc = messages[page.index].characterCount;
-                      // max word = 200
-                      const baseHeight = 100;
-                      const rowHeight = 22;
-                      const row = cc / 40;
-                      return baseHeight + row * rowHeight;
-                    }}
-                    overscanRowCount={3}
-                    rowRenderer={(props) => (
-                      <RowRenderer
-                        {...props}
-                        key={props.key}
-                        childKey={props.key}
-                        messages={messages}
-                      />
-                    )}
-                  />
-                )}
-              </AutoSizer>
+        <div className='flex h-full w-full items-start'>
+          {liveDetails && messages.length != 0 && (
+            <div className='items-center flex flex-col justify-center w-full'>
+              <Image
+                src={liveDetails.thumbnail}
+                width='0'
+                height='0'
+                sizes='100vw'
+                style={{ width: '320px', height: 'auto' }}
+                alt='thumbnail'
+                priority
+              />
+              <div>{liveDetails.title}</div>
+              <div>Channel Owner Name: {liveDetails.channelName}</div>
+              <div>Channel Profile URL: {liveDetails.channelUrl}</div>
             </div>
-          </AnimatePresence>
-        )}
+          )}
+
+          {messages.length != 0 && (
+            <AnimatePresence>
+              <div className='flex h-full w-full flex-col overflow-y-auto overflow-x-hidden pr-2'>
+                <AutoSizer>
+                  {({ width, height }) => (
+                    <List
+                      ref={listRef}
+                      width={width}
+                      height={height}
+                      rowCount={messages.length}
+                      onScroll={({ clientHeight, scrollHeight, scrollTop }) => {
+                        if (scrollTop + clientHeight + 20 >= scrollHeight) {
+                          // when scroll to bottom list, keep scroll to bottom on new message receive
+                          if (!enableAutoScroll) {
+                            setEnableAutoScroll(true);
+                          }
+                        } else {
+                          if (enableAutoScroll) {
+                            setEnableAutoScroll(false);
+                          }
+                        }
+                      }}
+                      rowHeight={(page: Index) => {
+                        const cc = messages[page.index].characterCount;
+                        // max word = 200
+                        const baseHeight = 100;
+                        const rowHeight = 22;
+                        const row = cc / 40;
+                        return baseHeight + row * rowHeight;
+                      }}
+                      overscanRowCount={3}
+                      rowRenderer={(props) => (
+                        <RowRenderer
+                          {...props}
+                          key={props.key}
+                          childKey={props.key}
+                          messages={messages}
+                        />
+                      )}
+                    />
+                  )}
+                </AutoSizer>
+              </div>
+            </AnimatePresence>
+          )}
+        </div>
       </div>
     </div>
   );
