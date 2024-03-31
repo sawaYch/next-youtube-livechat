@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - packages\next-youtube-livechat
+      - 'packages/next-youtube-livechat/**'
   workflow_dispatch: {}
 
 jobs:
