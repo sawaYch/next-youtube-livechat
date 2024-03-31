@@ -1,0 +1,57 @@
+name: Release next-youtube-livechat
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - packages\next-youtube-livechat
+  workflow_dispatch: {}
+
+jobs:
+  release:
+    name: Create a PR for release workflow
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      deployments: write
+      packages: write
+      pull-requests: write
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Restore project deps
+        run: npm ci
+
+      - name: Build the package next-youtube-livechat
+        run: cd packages/next-youtube-livechat && npm run build
+
+      - name: Lint check
+        run: npm run lint
+
+      - name: Code format check
+        run: npm run format
+
+      - name: Typescript check
+        run: npm run typecheck
+
+      - name: Create Version PR or Publish to NPM
+        id: changesets
+        uses: changesets/action@v1.4.7
+        with:
+          commit: "chore(release): version packages"
+          title: "chore(release): version packages"
+          version: node .github/changeset-version.js
+          publish: npx changeset publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+          NODE_ENV: "production"
