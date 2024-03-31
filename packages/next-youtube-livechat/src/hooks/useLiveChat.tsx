@@ -48,6 +48,7 @@ const useLiveChat = ({
   }, [intervalHandle]);
 
   useEffect(() => {
+    console.log('test');
     // url must provide
     try {
       if (url) {
