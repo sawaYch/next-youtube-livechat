@@ -2,7 +2,10 @@ name: Release
 
 on:
   push:
-    branches: [master, beta]
+    branches: [master]
+    # paths:
+    #   - 'packages/next-youtube-livechat/**'
+  workflow_dispatch: {}
 
 jobs:
   release:
