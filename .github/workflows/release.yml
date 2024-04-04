@@ -1,10 +1,12 @@
-name: Release
+# trigger only when packages code modified are merged on main branch
+name: Bump version & publish to NPM
 
 on:
   push:
-    branches: [master]
-    # paths:
-    #   - 'packages/next-youtube-livechat/**'
+    branches:
+      - main
+    paths:
+      - 'packages/next-youtube-livechat/**'
   workflow_dispatch: {}
 
 jobs:
@@ -12,16 +14,13 @@ jobs:
     name: Release
     if: ${{ github.repository_owner == 'sawaYch' }}
     runs-on: ubuntu-latest
-    # permissions:
-    #   contents: write
-    #   deployments: write
-    #   packages: write
-    #   pull-requests: write
+    permissions:
+      contents: write # to create release (changesets/action)
+      issues: write # to post issue comments (changesets/action)
+      pull-requests: write # to create pull request (changesets/action)
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
 
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
@@ -31,26 +30,30 @@ jobs:
       - name: Restore dependencies
         run: npx ci
 
-      - name: Install semantic-release extra plugins
-        run: npm install --save-dev @semantic-release/changelog @semantic-release/git
-
-      - name: Restore project deps
-        run: npm ci
-
       - name: Build the package next-youtube-livechat
-        run: cd packages/next-youtube-livechat && npm run build
+        run: npm run build
+        working-directory: packages/next-youtube-livechat 
 
       - name: Lint check
         run: npm run lint
+        working-directory: packages/next-youtube-livechat 
 
       - name: Code format check
         run: npm run format
+        working-directory: packages/next-youtube-livechat 
 
       - name: Typescript check
         run: npm run typecheck
+        working-directory: packages/next-youtube-livechat 
 
-      - name: Release
+      - name: Create Release Pull Request or Publish to npm
+        uses: changesets/action@v1
+        with:
+          publish: npm run release
+          version: npm run version
+          commit: 'chore: new release'
+          title: 'chore: new release candidate'
+          createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
-        run: npx semantic-release
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -23,6 +23,12 @@
     },
     "dev": {
       "cache": false
+    },
+    "release": {
+      "cache": false
+    },
+    "version": {
+      "cache": false
     }
   }
 }
