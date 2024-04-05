@@ -1,5 +1,11 @@
 # next-youtube-livechat
 
+## 0.1.29
+
+### Patch Changes
+
+- [#11](https://github.com/sawaYch/next-youtube-livechat/pull/11) [`e100ee6`](https://github.com/sawaYch/next-youtube-livechat/commit/e100ee692234e3bd409a1d8010a46a8f5cc6d2d2) Thanks [@sawaYch](https://github.com/sawaYch)! - fix(api): livestream thumbnail parser method
+
 ## 0.1.28
 
 ### Patch Changes
