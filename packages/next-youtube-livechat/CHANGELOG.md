@@ -1,5 +1,11 @@
 # next-youtube-livechat
 
+## 0.1.28
+
+### Patch Changes
+
+- [`1782587`](https://github.com/sawaYch/next-youtube-livechat/commit/17825871ddaa6254b533d1643933d66060d0fba2) Thanks [@sawaYch](https://github.com/sawaYch)! - ci: test release workflow
+
 ## 0.1.27
 
 ### Patch Changes
