@@ -63,7 +63,7 @@ export function getOptionsFromLivePage(
 
   let liveThumbnail: string;
   const liveThumbnailResult = data.match(
-    /<link rel="image_src" href="https:\/\/i.ytimg.com\/vi\/[^\s-]*\/maxresdefault_live.jpg">/
+    /<link rel="image_src" href="https:\/\/i.ytimg.com\/vi\/[^\s]+\/maxresdefault_live.jpg">/
   );
   if (liveThumbnailResult) {
     liveThumbnail = liveThumbnailResult[0];
