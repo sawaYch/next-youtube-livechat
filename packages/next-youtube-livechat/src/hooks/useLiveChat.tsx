@@ -111,6 +111,7 @@ const useLiveChat = ({
   ]);
 
   // render text & emoji tsx element
+  // TODO: handle superchat & member milestone
   const messages = useMemo(() => {
     if (!(url && isReady)) {
       return [];
