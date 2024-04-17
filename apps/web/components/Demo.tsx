@@ -51,8 +51,8 @@ const RowRenderer = ({
       )}
     >
       <div className='flex items-center gap-3'>
-        <div className='max-w-xs rounded-md bg-accent p-3'>
-          <div className='rounded-lg bg-primary px-2 mb-2 w-fit'>
+        <div className='rounded-md bg-accent p-3'>
+          <div className='rounded-lg bg-primary mb-2 px-2 w-fit'>
             {message.name}
           </div>
           <span className='relative inline-block'>{message.message}</span>
