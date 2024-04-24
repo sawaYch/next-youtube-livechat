@@ -120,7 +120,7 @@ const useLiveChat = ({
       message: it.message.map((it, index) => {
         if ('text' in it) {
           return (
-            <span className='relative inline-block' key={`${it.text}${index}`}>
+            <span className='relative inline' key={`${it.text}${index}`}>
               {it.text}
             </span>
           );
