@@ -1,5 +1,11 @@
 # next-youtube-livechat
 
+## 0.1.30
+
+### Patch Changes
+
+- [#15](https://github.com/sawaYch/next-youtube-livechat/pull/15) [`553bdc2`](https://github.com/sawaYch/next-youtube-livechat/commit/553bdc2af46b5bec39c9b272db3fd784d5c3a4ba) Thanks [@sawaYch](https://github.com/sawaYch)! - fix(hook): message style issue
+
 ## 0.1.29
 
 ### Patch Changes
