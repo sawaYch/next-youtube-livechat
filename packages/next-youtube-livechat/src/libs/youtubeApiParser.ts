@@ -17,7 +17,7 @@ export function getOptionsFromLivePage(
 ): FetchOptions & { liveId: string } {
   let liveId: string;
   const idResult = data.match(
-    /<link rel="canonical" href="https:\/\/www.youtube.com\/watch\?v=(.+?)">/
+    /href="https:\/\/m.youtube.com\/watch\?v=(.+?)">/
   );
   if (idResult) {
     liveId = idResult[1];
