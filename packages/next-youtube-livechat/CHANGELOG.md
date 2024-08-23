@@ -1,5 +1,11 @@
 # next-youtube-livechat
 
+## 1.0.0
+
+### Major Changes
+
+- [#18](https://github.com/sawaYch/next-youtube-livechat/pull/18) [`292d9ae`](https://github.com/sawaYch/next-youtube-livechat/commit/292d9ae477da6aa4645717286df8c17f9be9d468) Thanks [@sawaYch](https://github.com/sawaYch)! - fix youtube livestream id parsing method
+
 ## 0.1.30
 
 ### Patch Changes
