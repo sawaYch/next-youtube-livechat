@@ -58,7 +58,10 @@ export function getOptionsFromLivePage(
   if (continuationResult) {
     continuation = continuationResult[1];
   } else {
-    throw new Error('Continuation was not found');
+    //- 24-Aug-2024: if live stream is finished, continuation is not found.
+    throw new Error(
+      'Continuation was not found. Probably live stream is finished.'
+    );
   }
 
   let liveThumbnail: string;
