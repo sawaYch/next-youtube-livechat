@@ -103,7 +103,8 @@ export function getOptionsFromLivePage(
       .replace('ownerChannelName":"', '')
       .replace('","liveBroadcastDetails', '');
   } else {
-    throw new Error('Channel Name was not found');
+    // throw new Error('Channel Name was not found');
+    channelName = '???'; // FIXME
   }
 
   let channelUrl: string = 'https://www.youtube.com/';
