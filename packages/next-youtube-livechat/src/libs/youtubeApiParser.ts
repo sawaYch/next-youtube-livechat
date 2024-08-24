@@ -17,7 +17,7 @@ export function getOptionsFromLivePage(
 ): FetchOptions & { liveId: string } {
   let liveId: string;
   const idResult = data.match(
-    /<link rel="canonical" href="https:\/\/www.youtube.com\/watch\?v=(.+?)">/
+    /<link rel="alternate" media="handheld" href="https:\/\/m.youtube.com\/watch\?v=(.+?)">/
   );
   if (idResult) {
     liveId = idResult[1];
@@ -63,10 +63,16 @@ export function getOptionsFromLivePage(
 
   let liveThumbnail: string;
   const liveThumbnailResult = data.match(
-    /<link rel="image_src" href="https:\/\/i.ytimg.com\/vi\/[^\s]+\/maxresdefault_live.jpg">/
+    /'https:\/\/i.ytimg.com\/vi\/[^\s]+\/hqdefault.jpg'\)/
   );
   if (liveThumbnailResult) {
     liveThumbnail = liveThumbnailResult[0];
+    let lastIndex = liveThumbnail.lastIndexOf("')");
+    if (lastIndex !== -1) {
+      liveThumbnail =
+        liveThumbnail.substring(0, lastIndex) +
+        liveThumbnail.substring(lastIndex + 2);
+    }
     const res = liveThumbnail.match(/https?:\/\/[^\s">]+/)?.[0];
     if (res == null) {
       throw new Error('Live Thumbnail image url parse error');
