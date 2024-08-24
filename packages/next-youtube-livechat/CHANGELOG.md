@@ -1,5 +1,11 @@
 # next-youtube-livechat
 
+## 0.1.32
+
+### Patch Changes
+
+- [#24](https://github.com/sawaYch/next-youtube-livechat/pull/24) [`1da9c35`](https://github.com/sawaYch/next-youtube-livechat/commit/1da9c355bfdc064555e5ceff11f142cda44fd5bf) Thanks [@sawaYch](https://github.com/sawaYch)! - fix api for live stream finished detection
+
 ## 0.1.31
 
 ### Patch Changes
