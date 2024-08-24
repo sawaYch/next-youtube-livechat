@@ -96,12 +96,16 @@ export function getOptionsFromLivePage(
 
   let channelName: string;
   const channelNameResult = data.match(
-    /ownerChannelName":".*","liveBroadcastDetails/
+    /"videoDescriptionInfocardsSectionRenderer":{"sectionTitle":{"simpleText":".*"},"creatorVideosButton"/
   );
+  console.log('channelNameResult', channelNameResult);
   if (channelNameResult) {
     channelName = channelNameResult[0]
-      .replace('ownerChannelName":"', '')
-      .replace('","liveBroadcastDetails', '');
+      .replace(
+        '"videoDescriptionInfocardsSectionRenderer":{"sectionTitle":{"simpleText":"',
+        ''
+      )
+      .replace('"},"creatorVideosButton"', '');
   } else {
     // throw new Error('Channel Name was not found');
     channelName = '???'; // FIXME
@@ -109,12 +113,14 @@ export function getOptionsFromLivePage(
 
   let channelUrl: string = 'https://www.youtube.com/';
   const channelUrlResult = data.match(
-    /"ownerProfileUrl":"http:\/\/www.youtube.com\/.*","externalChannelId":/
+    /"canonicalBaseUrl":"\/@.*"}}}]},"subscriptionButton":{"type":"FREE"},/
   );
+  console.log('channelUrlResult', channelUrlResult);
+
   if (channelUrlResult) {
     const channelAtId = channelUrlResult[0]
-      .replace('"ownerProfileUrl":"http://www.youtube.com/', '')
-      .replace('","externalChannelId":', '');
+      .replace('"canonicalBaseUrl":"/', '')
+      .replace('"}}}]},"subscriptionButton":{"type":"FREE"},', '');
     channelUrl += channelAtId;
   } else {
     // throw new Error('Channel Url was not found');
