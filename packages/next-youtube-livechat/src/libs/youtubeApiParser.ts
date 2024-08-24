@@ -17,7 +17,7 @@ export function getOptionsFromLivePage(
 ): FetchOptions & { liveId: string } {
   let liveId: string;
   const idResult = data.match(
-    /<link rel="alternate" media="handheld" href="https:\/\/m.youtube.com\/watch\?v=(.+?)">/
+    /{"webCommandMetadata":{"url":"\/watch\?v=(.+?)","webPageType":/
   );
   if (idResult) {
     liveId = idResult[1];
