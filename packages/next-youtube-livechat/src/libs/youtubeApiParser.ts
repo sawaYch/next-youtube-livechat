@@ -95,7 +95,7 @@ export function getOptionsFromLivePage(
   }
 
   let channelName: string;
-  const channelNameResult = data.match(/ownerChannelName":".*","liveBroadcast/);
+  const channelNameResult = data.match(/ownerChannelName":".*","liveBroadcastDetails/);
   if (channelNameResult) {
     channelName = channelNameResult[0]
       .replace('ownerChannelName":"', '')
