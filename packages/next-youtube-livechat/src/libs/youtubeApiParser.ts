@@ -118,7 +118,7 @@ export function getOptionsFromLivePage(
     channelUrl += channelAtId;
   } else {
     // throw new Error('Channel Url was not found');
-    channelUrl = '???' // FIXME
+    channelUrl = '???'; // FIXME
   }
 
   return {
