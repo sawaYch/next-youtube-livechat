@@ -20,7 +20,7 @@ export function getOptionsFromLivePage(
     /{"webCommandMetadata":{"url":"\/watch\?v=(.+?)","webPageType":/
   );
   if (idResult) {
-    liveId = idResult[1];
+    liveId = idResult[2];
   } else {
     throw new Error('Live Stream was not found');
   }
@@ -95,11 +95,13 @@ export function getOptionsFromLivePage(
   }
 
   let channelName: string;
-  const channelNameResult = data.match(/ownerChannelName":".*","liveBroadcastDetails/);
+  const channelNameResult = data.match(
+    /ownerChannelName":".*","liveBroadcastDetails/
+  );
   if (channelNameResult) {
     channelName = channelNameResult[0]
       .replace('ownerChannelName":"', '')
-      .replace('","liveBroadcast', '');
+      .replace('","liveBroadcastDetails', '');
   } else {
     throw new Error('Channel Name was not found');
   }
