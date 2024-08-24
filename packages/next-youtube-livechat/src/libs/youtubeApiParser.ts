@@ -17,10 +17,10 @@ export function getOptionsFromLivePage(
 ): FetchOptions & { liveId: string } {
   let liveId: string;
   const idResult = data.match(
-    /<link rel="canonical" href="https:\/\/www.youtube.com\/watch\?v=(.+?)">/
+    /{"webCommandMetadata":{"url":"\/watch\?v=(.+?)","webPageType":/
   );
   if (idResult) {
-    liveId = idResult[1];
+    liveId = idResult[2];
   } else {
     throw new Error('Live Stream was not found');
   }
@@ -63,10 +63,16 @@ export function getOptionsFromLivePage(
 
   let liveThumbnail: string;
   const liveThumbnailResult = data.match(
-    /<link rel="image_src" href="https:\/\/i.ytimg.com\/vi\/[^\s]+\/maxresdefault_live.jpg">/
+    /'https:\/\/i.ytimg.com\/vi\/[^\s]+\/hqdefault.jpg'\)/
   );
   if (liveThumbnailResult) {
     liveThumbnail = liveThumbnailResult[0];
+    let lastIndex = liveThumbnail.lastIndexOf("')");
+    if (lastIndex !== -1) {
+      liveThumbnail =
+        liveThumbnail.substring(0, lastIndex) +
+        liveThumbnail.substring(lastIndex + 2);
+    }
     const res = liveThumbnail.match(/https?:\/\/[^\s">]+/)?.[0];
     if (res == null) {
       throw new Error('Live Thumbnail image url parse error');
@@ -89,26 +95,36 @@ export function getOptionsFromLivePage(
   }
 
   let channelName: string;
-  const channelNameResult = data.match(/ownerChannelName":".*","liveBroadcast/);
+  const channelNameResult = data.match(
+    /"videoDescriptionInfocardsSectionRenderer":{"sectionTitle":{"simpleText":".*"},"creatorVideosButton"/
+  );
+  console.log('channelNameResult', channelNameResult);
   if (channelNameResult) {
     channelName = channelNameResult[0]
-      .replace('ownerChannelName":"', '')
-      .replace('","liveBroadcast', '');
+      .replace(
+        '"videoDescriptionInfocardsSectionRenderer":{"sectionTitle":{"simpleText":"',
+        ''
+      )
+      .replace('"},"creatorVideosButton"', '');
   } else {
-    throw new Error('Channel Name was not found');
+    // throw new Error('Channel Name was not found');
+    channelName = '???'; // FIXME
   }
 
   let channelUrl: string = 'https://www.youtube.com/';
   const channelUrlResult = data.match(
-    /"ownerProfileUrl":"http:\/\/www.youtube.com\/.*","externalChannelId":/
+    /"canonicalBaseUrl":"\/@.*"}}}]},"subscriptionButton":{"type":"FREE"},/
   );
+  console.log('channelUrlResult', channelUrlResult);
+
   if (channelUrlResult) {
     const channelAtId = channelUrlResult[0]
-      .replace('"ownerProfileUrl":"http://www.youtube.com/', '')
-      .replace('","externalChannelId":', '');
+      .replace('"canonicalBaseUrl":"/', '')
+      .replace('"}}}]},"subscriptionButton":{"type":"FREE"},', '');
     channelUrl += channelAtId;
   } else {
-    throw new Error('Channel Url was not found');
+    // throw new Error('Channel Url was not found');
+    channelUrl = '???'; // FIXME
   }
 
   return {
