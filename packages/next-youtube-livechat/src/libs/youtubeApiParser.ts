@@ -17,10 +17,13 @@ export function getOptionsFromLivePage(
 ): FetchOptions & { liveId: string } {
   let liveId: string;
   const idResult = data.match(
-    /{"webCommandMetadata":{"url":"\/watch\?v=(.+?)","webPageType":/
+    /"originalUrl":"https:\/\/www.youtube.com\/watch\?v\\u003d(.+?)"/
   );
+  console.log(idResult);
   if (idResult) {
-    liveId = idResult[2];
+    liveId = idResult[0]
+      .replace('"originalUrl":"https://www.youtube.com/watch?v\\u003d', '')
+      .replace('"', '');
   } else {
     throw new Error('Live Stream was not found');
   }
