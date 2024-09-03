@@ -92,6 +92,7 @@ export function getOptionsFromLivePage(
   const liveTitleResult = data.match(
     /<meta name="title" content="[\s\S]*"><meta name="description"/
   );
+  console.log('liveTitleResult', liveTitleResult);
   if (liveTitleResult) {
     liveTitle = liveTitleResult[0]
       .replace('<meta name="title" content="', '')
