@@ -1,5 +1,11 @@
 # next-youtube-livechat
 
+## 0.1.33
+
+### Patch Changes
+
+- [#27](https://github.com/sawaYch/next-youtube-livechat/pull/27) [`01886bb`](https://github.com/sawaYch/next-youtube-livechat/commit/01886bb9eb5761cb0243434dc6ec496fa6ab0fc4) Thanks [@sawaYch](https://github.com/sawaYch)! - fix API parsing issue
+
 ## 0.1.32
 
 ### Patch Changes
