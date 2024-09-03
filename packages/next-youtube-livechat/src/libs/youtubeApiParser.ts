@@ -90,13 +90,13 @@ export function getOptionsFromLivePage(
 
   let liveTitle: string;
   const liveTitleResult = data.match(
-    /<meta name="title" content="[\s\S]*"><meta name="description"/
+    /{"playerOverlayVideoDetailsRenderer":{"title":{"simpleText":"[\s\S]*"},"subtitle":{/
   );
   console.log('liveTitleResult', liveTitleResult);
   if (liveTitleResult) {
     liveTitle = liveTitleResult[0]
-      .replace('<meta name="title" content="', '')
-      .replace('"><meta name="description"', '');
+      .replace('{"playerOverlayVideoDetailsRenderer":{"title":{"simpleText":"', '')
+      .replace('"},"subtitle":{', '');
   } else {
     throw new Error('Live Title was not found');
   }
