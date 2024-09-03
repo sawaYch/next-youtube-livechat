@@ -95,7 +95,10 @@ export function getOptionsFromLivePage(
   console.log('liveTitleResult', liveTitleResult);
   if (liveTitleResult) {
     liveTitle = liveTitleResult[0]
-      .replace('{"playerOverlayVideoDetailsRenderer":{"title":{"simpleText":"', '')
+      .replace(
+        '{"playerOverlayVideoDetailsRenderer":{"title":{"simpleText":"',
+        ''
+      )
       .replace('"},"subtitle":{', '');
   } else {
     throw new Error('Live Title was not found');
