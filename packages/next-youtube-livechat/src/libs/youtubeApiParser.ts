@@ -106,32 +106,21 @@ export function getOptionsFromLivePage(
 
   let channelName: string;
   const channelNameResult = data.match(
-    /"videoDescriptionInfocardsSectionRenderer":{"sectionTitle":{"simpleText":".*"},"creatorVideosButton"/
+    /"videoOwnerRenderer":[\s\S]*?"title":{"runs":\[{"text":"([^"]+)"/
   );
-  console.log('channelNameResult', channelNameResult);
   if (channelNameResult) {
-    channelName = channelNameResult[0]
-      .replace(
-        '"videoDescriptionInfocardsSectionRenderer":{"sectionTitle":{"simpleText":"',
-        ''
-      )
-      .replace('"},"creatorVideosButton"', '');
+    channelName = channelNameResult[1];
   } else {
     // throw new Error('Channel Name was not found');
     channelName = '???'; // FIXME
   }
 
-  let channelUrl: string = 'https://www.youtube.com/';
+  let channelUrl: string;
   const channelUrlResult = data.match(
-    /"canonicalBaseUrl":"\/@.*"}}}]},"subscriptionButton":{"type":"FREE"},/
+    /"videoOwnerRenderer":[\s\S]*?"canonicalBaseUrl":"(\/[^"]+)"/
   );
-  console.log('channelUrlResult', channelUrlResult);
-
   if (channelUrlResult) {
-    const channelAtId = channelUrlResult[0]
-      .replace('"canonicalBaseUrl":"/', '')
-      .replace('"}}}]},"subscriptionButton":{"type":"FREE"},', '');
-    channelUrl += channelAtId;
+    channelUrl = `https://www.youtube.com${channelUrlResult[1]}`;
   } else {
     // throw new Error('Channel Url was not found');
     channelUrl = '???'; // FIXME
