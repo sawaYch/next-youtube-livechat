@@ -16,7 +16,7 @@
     "@changesets/cli": "^2.27.1",
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
-    "turbo": "^1.13.0"
+    "turbo": "^2.10.11"
   },
   "engines": {
     "node": ">=18"
@@ -25,5 +25,15 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "next": "16.3.2",
+    "tailwindcss": "^3.4.19"
+  },
+  "overrides": {
+    "minimatch": "^9.0.9",
+    "glob": "^13.0.6",
+    "ajv": "^6.15",
+    "esbuild": "^0.28.2"
+  }
 }

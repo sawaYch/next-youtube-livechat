@@ -36,7 +36,7 @@ const UrlInput = forwardRef<HTMLInputElement, UrlInputProps>(
     }, [forwardedRef, handleUrlSubmit]);
 
     return (
-      <div className='flex-col flex gap-2'>
+      <div className='flex flex-col gap-2'>
         <Label htmlFor='yt-url'>Enter Youtube Live url</Label>
         <div className='relative'>
           <Input
@@ -51,7 +51,7 @@ const UrlInput = forwardRef<HTMLInputElement, UrlInputProps>(
           <Button
             type='button'
             size='sm'
-            className='absolute right-0 top-0 h-full rounded-l-none px-3 py-2 border border-secondary border-l-0'
+            className='absolute right-0 top-0 h-full rounded-l-none border border-l-0 border-secondary px-3 py-2'
             onClick={handleButtonClick}
             disabled={isLoading}
           >

@@ -29,7 +29,7 @@ const useLiveChat = ({
 }: useLiveChatProps): useLIveChatReturnType => {
   const [rawChatItems, setRawChatItems] = useState<ChatItem[]>([]);
   const rawChatItemRef = useRef(rawChatItems);
-  const intervalHandle = useRef<NodeJS.Timeout | null>(null);
+  const intervalHandle = useRef<ReturnType<typeof setInterval> | null>(null);
   rawChatItemRef.current = rawChatItems;
   const [options, setOptions] = useState<
     FetchOptions & {

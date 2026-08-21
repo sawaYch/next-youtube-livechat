@@ -116,8 +116,7 @@ export interface LiveChatTextMessageRenderer extends MessageRendererBase {
   };
 }
 
-export interface LiveChatPaidMessageRenderer
-  extends LiveChatTextMessageRenderer {
+export interface LiveChatPaidMessageRenderer extends LiveChatTextMessageRenderer {
   purchaseAmountText: {
     simpleText: string;
   };
