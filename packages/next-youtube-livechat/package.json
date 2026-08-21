@@ -32,18 +32,19 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "next": "^14.1.1",
+    "next": "^16.3.2",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "turbo": "2.10.11"
   },
   "devDependencies": {
     "@babel/plugin-transform-unicode-regex": "^7.24.7",
-    "@next/eslint-plugin-next": "^14.1.1",
+    "@next/eslint-plugin-next": "^16.3.2",
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "@types/eslint": "^8.56.5",
     "eslint": "^8",
-    "eslint-config-next": "14.1.0",
+    "eslint-config-next": "^16.3.2",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
