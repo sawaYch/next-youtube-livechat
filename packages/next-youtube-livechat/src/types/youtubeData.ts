@@ -35,9 +35,7 @@ export interface EmojiItem extends ImageItem {
 }
 
 export type YoutubeId =
-  | { channelId: string }
-  | { liveId: string }
-  | { handle: string };
+  { channelId: string } | { liveId: string } | { handle: string };
 
 export interface YoutubeDetails {
   title: string;

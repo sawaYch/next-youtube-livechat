@@ -52,7 +52,7 @@ const RowRenderer = ({
     >
       <div className='flex items-center gap-3'>
         <div className='rounded-md bg-accent p-3'>
-          <div className='rounded-lg bg-primary mb-2 px-2 w-fit'>
+          <div className='mb-2 w-fit rounded-lg bg-primary px-2'>
             {message.name}
           </div>
           <span className='relative inline-block'>{message.message}</span>
@@ -117,7 +117,7 @@ const Demo = () => {
 
   return (
     <div className='z-40 mt-4 flex h-[calc(100dvh-10rem)] w-[calc(100dvw-10rem)] flex-col items-center justify-start'>
-      <div className='flex p-4 h-full w-full flex-col overflow-y-auto overflow-x-hidden gap-4'>
+      <div className='flex h-full w-full flex-col gap-4 overflow-y-auto overflow-x-hidden p-4'>
         <UrlInput
           isLoading={isLoading}
           isReady={isReady}
@@ -132,7 +132,7 @@ const Demo = () => {
         />
         <div className='flex h-full w-full items-start'>
           {liveDetails && messages.length != 0 && (
-            <div className='items-center flex flex-col justify-center w-full'>
+            <div className='flex w-full flex-col items-center justify-center'>
               <Image
                 src={liveDetails.thumbnail}
                 width='0'
