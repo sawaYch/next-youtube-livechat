@@ -1,5 +1,13 @@
 # next-youtube-livechat
 
+## 0.1.34
+
+### Patch Changes
+
+- [#34](https://github.com/sawaYch/next-youtube-livechat/pull/34) [`f6201af`](https://github.com/sawaYch/next-youtube-livechat/commit/f6201af8db0b2384bdbd8a4a203e56fed57b58e3) Thanks [@sawaYch](https://github.com/sawaYch)! - fix: broken channel name and channel profile URL parsing on watch pages containing multiple canonicalBaseUrl entries
+
+- [#33](https://github.com/sawaYch/next-youtube-livechat/pull/33) [`0a4977e`](https://github.com/sawaYch/next-youtube-livechat/commit/0a4977e74b2af460f39d574e204662ac0e7c014a) Thanks [@sawaYch](https://github.com/sawaYch)! - fix audit issue 21-08-2026
+
 ## 0.1.33
 
 ### Patch Changes
