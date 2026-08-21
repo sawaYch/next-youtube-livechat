@@ -52,7 +52,7 @@ const RowRenderer = ({
     >
       <div className='flex items-center gap-3'>
         <div className='rounded-md bg-accent p-3'>
-          <div className='mb-2 w-fit rounded-lg bg-primary px-2'>
+          <div className='mb-2 ml-auto w-fit rounded-lg bg-primary px-2'>
             {message.name}
           </div>
           <span className='relative inline-block'>{message.message}</span>
