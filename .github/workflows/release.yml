@@ -47,6 +47,10 @@ jobs:
         run: npm run typecheck
         working-directory: packages/next-youtube-livechat 
 
+      - name: Test
+        run: npm run test
+        working-directory: packages/next-youtube-livechat
+
       - name: Update npm CLI for trusted publishing
         run: npm install -g npm@latest
 

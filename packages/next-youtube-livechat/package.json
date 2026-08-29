@@ -29,7 +29,8 @@
     "lint": "eslint .",
     "format": "npx prettier -c \"**/*.{ts,tsx,css}\"",
     "format:fix": "npx prettier -w \"**/*.{ts,tsx,css}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "next": "^16.3.2",
@@ -47,11 +48,13 @@
     "eslint": "^9",
     "eslint-config-next": "^16.3.2",
     "eslint-config-prettier": "^9.1.0",
+    "jsdom": "^26.1.0",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.11",
     "tailwindcss": "^3.3.0",
     "tsup": "^8.0.2",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^3.2.4"
   },
   "files": [
     "dist",

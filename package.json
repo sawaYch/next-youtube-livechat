@@ -8,6 +8,7 @@
     "format": "turbo run format",
     "format:fix": "turbo run format:fix",
     "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
     "version": "npx changeset version",
     "release": "npx changeset publish"
   },

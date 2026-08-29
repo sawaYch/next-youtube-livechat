@@ -1,6 +1,7 @@
 # Next Youtube Livechat Monorepo
 
 ![Vercel Deploy](https://vercel-badge-sawa.vercel.app/?app=next-youtube-livechat)
+[![Tests](https://github.com/sawaYch/next-youtube-livechat/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/sawaYch/next-youtube-livechat/actions/workflows/test.yml)
 <span class="badge-npmversion"><a href="https://npmjs.org/package/next-youtube-livechat" title="View this project on NPM"><img src="https://img.shields.io/npm/v/next-youtube-livechat" alt="NPM version" /></a></span>
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 

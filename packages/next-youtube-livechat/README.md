@@ -1,5 +1,8 @@
 # `next-youtube-livechat`
 
+[![Tests](https://github.com/sawaYch/next-youtube-livechat/actions/workflows/test.yml/badge.svg?branch=main)](https://github.com/sawaYch/next-youtube-livechat/actions/workflows/test.yml)
+[![npm](https://img.shields.io/npm/v/next-youtube-livechat)](https://www.npmjs.com/package/next-youtube-livechat)
+
 Fetch YouTube live chat without API using NextJS which bypass CORS.  
 Demo site: [https://next-youtube-livechat.vercel.app/](https://next-youtube-livechat.vercel.app/)
 

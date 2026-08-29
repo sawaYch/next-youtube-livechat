@@ -21,6 +21,9 @@
       "cache": false,
       "dependsOn": ["^typecheck"]
     },
+    "test": {
+      "cache": false
+    },
     "dev": {
       "cache": false
     },

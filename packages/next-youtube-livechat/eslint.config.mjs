@@ -23,5 +23,5 @@ export default defineConfig([
     // not a Next app: no pages directory exists in this package
     rules: { '@next/next/no-html-link-for-pages': 'off' },
   },
-  globalIgnores(['dist/**', 'node_modules/**']),
+  globalIgnores(['dist/**', 'node_modules/**', 'coverage/**']),
 ]);
